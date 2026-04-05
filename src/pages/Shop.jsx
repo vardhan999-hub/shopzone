@@ -26,29 +26,50 @@ export default function Shop() {
   const [searchParams] = useSearchParams()
   const categoryParam = searchParams.get('category')
 
-  // ✅ Fetch logic (IMPORTANT FIX)
   useEffect(() => {
     setLoading(true)
 
-    let url = 'https://dummyjson.com/products?limit=100'
-
     if (categoryParam) {
-      url = `https://dummyjson.com/products/category/${categoryParam}`
+      // Try category API first
+      fetch(`https://dummyjson.com/products/category/${categoryParam}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.products && data.products.length > 0) {
+            setProducts(data.products)
+            setLoading(false)
+          } else {
+            // Fallback: fetch all and filter
+            fetch('https://dummyjson.com/products?limit=200')
+              .then(res => res.json())
+              .then(allData => {
+                const filtered = allData.products.filter(p =>
+                  p.category.toLowerCase() === categoryParam.toLowerCase()
+                )
+                setProducts(filtered)
+                setLoading(false)
+              })
+          }
+        })
+        .catch(() => {
+          setError(true)
+          setLoading(false)
+        })
+    } else {
+      // No category → fetch all
+      fetch('https://dummyjson.com/products?limit=200')
+        .then(res => res.json())
+        .then(data => {
+          setProducts(data.products || [])
+          setLoading(false)
+        })
+        .catch(() => {
+          setError(true)
+          setLoading(false)
+        })
     }
-
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        setProducts(data.products || [])
-        setLoading(false)
-      })
-      .catch(() => {
-        setError(true)
-        setLoading(false)
-      })
   }, [categoryParam])
 
-  // ✅ Only search filter (category handled by API)
+  // Search filter
   let displayed = products.filter(p =>
     p.title.toLowerCase().includes(search.toLowerCase()) ||
     p.category.toLowerCase().includes(search.toLowerCase())

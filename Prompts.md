@@ -1,93 +1,163 @@
-# Prompts.md — ShopZone AI Prompts Log
+# Prompts.md — ShopZone Development Notes
 
-This file documents the AI prompts used during the development of ShopZone as part of the internship submission requirements.
-
----
-
-## Prompt 1 — Project Scaffold
-
-**Prompt:**
-> Build a full multi-page e-commerce SPA called ShopZone using React, React Router v6, and Context API. Use the DummyJSON API (https://dummyjson.com/products). Structure: src/components, src/pages, src/context. Include routes for /, /shop, /product/:id, /cart, /contact, /login, /checkout.
-
-**Used for:** Initial project structure, App.jsx routing setup, folder layout.
+**Project:** ShopZone  
+**Week:** 6  
+**Intern:** Tadigadapa Harshavardhan  
 
 ---
 
-## Prompt 2 — Context API (Cart)
+## Overview
 
-**Prompt:**
-> Create a CartContext.jsx with CartProvider. Implement: addToCart (increments qty if item exists, else adds new), removeFromCart, updateQty (min 1), clearCart, cartCount, cartTotal. Persist cart to localStorage. Show a toast notification when items are added.
-
-**Used for:** `src/context/CartContext.jsx`
+This document outlines how I used AI tools as a reference while building the ShopZone project.  
+The main focus was on understanding concepts, implementing features manually, and improving the project through testing and iteration.
 
 ---
 
-## Prompt 3 — Auth Context (Separated)
+## Prompt 1 — Project Structure
 
-**Prompt:**
-> Create a separate AuthContext.jsx with AuthProvider. Include: login(name) sets user state and persists to localStorage, logout() clears it, isLoggedIn boolean derived from user state. Export useAuth hook.
+**Prompt Used:**  
+Basic guidance on structuring a React SPA with routing.
 
-**Used for:** `src/context/AuthContext.jsx`
-
----
-
-## Prompt 4 — Protected Route
-
-**Prompt:**
-> Create a ProtectedRoute component using React Router v6. If user is not logged in (from useAuth), redirect to /login and pass the current location.pathname as state.from so the login page can redirect back after authentication.
-
-**Used for:** `src/components/ProtectedRoute.jsx`
+**What I Did:**
+- Created a clean folder structure (components, pages, context, utils)  
+- Implemented routing using React Router  
+- Ensured Navbar is shared across all pages  
 
 ---
 
-## Prompt 5 — Shop Page with Filters
+## Prompt 2 — Cart State Management
 
-**Prompt:**
-> Create a Shop page that fetches all products from https://dummyjson.com/products?limit=100. Add a search bar that filters by title or category. Add a sort dropdown (default, price low-high, price high-low, top rated). Show a loading spinner while fetching. Display results in a responsive CSS grid using ProductCard components.
+**Prompt Used:**  
+Reference for using Context API to manage cart state.
 
-**Used for:** `src/pages/Shop.jsx`
+**What I Did:**
+- Built CartContext manually  
+- Implemented add, remove, update quantity, and clear cart  
+- Prevented duplicate items by increasing quantity  
+- Added localStorage persistence  
+- Built a toast notification system  
 
 ---
 
-## Prompt 6 — Product Detail Page
+## Prompt 3 — Authentication
 
-**Prompt:**
-> Create a Product detail page using useParams() to get the product ID from the URL. Fetch from https://dummyjson.com/products/:id. Display: image gallery with thumbnails, title, rating stars, price with discount badge, description, metadata (brand, SKU, warranty, shipping). Add an "Add to Cart" button that temporarily shows a success state.
+**Prompt Used:**  
+Basic idea for managing login state.
 
-**Used for:** `src/pages/Product.jsx`
+**What I Did:**
+- Created AuthContext  
+- Implemented login and logout  
+- Stored user data in localStorage  
+- Integrated authentication with Navbar and protected routes  
+
+---
+
+## Prompt 4 — Protected Routes
+
+**Prompt Used:**  
+Concept of redirecting unauthenticated users.
+
+**What I Did:**
+- Created ProtectedRoute component  
+- Redirected users to login if not authenticated  
+- Passed original route and handled redirect after login  
+
+---
+
+## Prompt 5 — Shop Page
+
+**Prompt Used:**  
+Fetching and displaying products.
+
+**What I Did:**
+- Implemented API fetching  
+- Added search (title + category)  
+- Added sorting (price and rating)  
+- Implemented category filtering  
+- Built skeleton loading UI  
+- Added proper error handling  
+
+---
+
+## Prompt 6 — Product Page
+
+**Prompt Used:**  
+Dynamic routing with useParams.
+
+**What I Did:**
+- Built full product detail page  
+- Added image gallery  
+- Calculated discount price  
+- Implemented loading and error states  
+- Added Add-to-Cart feedback  
 
 ---
 
 ## Prompt 7 — Cart Page
 
-**Prompt:**
-> Create a Cart page. Show all cart items with image, title, category, price per unit, quantity controls (min 1, disabled at 1), item subtotal, and remove button. Show an Order Summary sidebar with per-item breakdown and total. Add a "Proceed to Checkout" button. On mobile, stack the quantity controls below the item info instead of hiding them.
+**Prompt Used:**  
+Basic cart UI reference.
 
-**Used for:** `src/pages/Cart.jsx`
-
----
-
-## Prompt 8 — Login Page with Redirect
-
-**Prompt:**
-> Create a Login page with two options: enter a name and click Login, or click "Continue as Guest". After login, redirect to location.state.from (the page the user was trying to access) or / if none. Show a warning message if redirected from a protected route.
-
-**Used for:** `src/pages/Login.jsx`
+**What I Did:**
+- Built complete cart interface  
+- Added quantity controls with validation  
+- Implemented subtotal and total calculation  
+- Improved layout for mobile  
 
 ---
 
-## Prompt 9 — Checkout (Protected) + Order Success
+## Prompt 8 — Login Flow
 
-**Prompt:**
-> Create a protected Checkout page. Redirect to /shop if cart is empty (using useEffect). Show a shipping form and payment form with a sticky order summary sidebar. On submit, clear the cart and navigate to /order-success. Create the OrderSuccess page with a confirmation message and animated icon.
+**Prompt Used:**  
+Redirect after login.
 
-**Used for:** `src/pages/Checkout.jsx`, `src/pages/OrderSuccess.jsx`
+**What I Did:**
+- Implemented guest login  
+- Added redirect to previous page  
+- Displayed message for protected routes  
 
 ---
 
-## Prompt 10 — Global Design System
+## Prompt 9 — Checkout Flow
 
-**Prompt:**
-> Create a cohesive dark editorial design system using CSS custom properties. Use Playfair Display for headings and DM Sans for body text. Color palette: deep charcoal background (#0f0f0f), warm amber accent (#e8a045), muted warm gray for secondary text. Include utility classes for buttons, fade-up animations, spinner, toast notifications, and a sticky navbar with cart badge.
+**Prompt Used:**  
+Basic checkout logic.
 
-**Used for:** `src/index.css`, all component CSS files.
+**What I Did:**
+- Protected checkout route  
+- Prevented access if cart is empty  
+- Built order summary  
+- Cleared cart after order  
+- Navigated to success page  
+
+---
+
+## Prompt 10 — UI Design
+
+**Prompt Used:**  
+General guidance for styling.
+
+**What I Did:**
+- Designed dark theme using CSS variables  
+- Added animations and transitions  
+- Built reusable UI components  
+- Ensured responsive design  
+
+---
+
+## Additional Work Done Independently
+
+- Implemented skeleton loaders for better UX  
+- Added toast system with cleanup  
+- Handled API errors properly  
+- Optimized performance using hooks  
+- Maintained clean and scalable project structure  
+
+---
+
+## Final Reflection
+
+AI was used only as a reference for concepts and structure.  
+The project was implemented, tested, and improved manually.
+
+This helped me understand how to build a real-world React application with proper state management, routing, and user experience.

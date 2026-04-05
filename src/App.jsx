@@ -1,20 +1,22 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Navbar           from './components/Navbar'
-import ProtectedRoute   from './components/ProtectedRoute'
 
-import Home         from './pages/Home'
-import Shop         from './pages/Shop'
-import Product      from './pages/Product'
-import Cart         from './pages/Cart'
-import Contact      from './pages/Contact'
-import Login        from './pages/Login'
-import Checkout     from './pages/Checkout'
-import OrderSuccess from './pages/OrderSuccess'
+import Navbar           from './components/Navbar.jsx'
+import ProtectedRoute   from './components/ProtectedRoute.jsx'
+
+import Home             from './pages/Home.jsx'
+import Shop             from './pages/Shop.jsx'
+import Product          from './pages/Product.jsx'
+import Cart             from './pages/Cart.jsx'
+import Contact          from './pages/Contact.jsx'
+import Login            from './pages/Login.jsx'
+import Checkout         from './pages/Checkout.jsx'
+import OrderSuccess     from './pages/OrderSuccess.jsx'
 
 export default function App() {
   return (
     <BrowserRouter>
       <Navbar />
+
       <Routes>
         <Route path="/"            element={<Home />} />
         <Route path="/shop"        element={<Shop />} />
@@ -23,7 +25,7 @@ export default function App() {
         <Route path="/contact"     element={<Contact />} />
         <Route path="/login"       element={<Login />} />
 
-        {/* Improvement 4 — both checkout and success are protected */}
+        {/* Protected Routes */}
         <Route
           path="/checkout"
           element={
@@ -32,6 +34,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/order-success"
           element={

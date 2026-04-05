@@ -29,11 +29,7 @@ export default function Shop() {
   useEffect(() => {
     setLoading(true)
 
-    const url = categoryParam
-      ? `https://dummyjson.com/products/category/${categoryParam}`
-      : `https://dummyjson.com/products?limit=100`
-
-    fetch(url)
+    fetch('https://dummyjson.com/products?limit=200') // fetch all
       .then(res => res.json())
       .then(data => {
         setProducts(data.products || [])
@@ -43,14 +39,19 @@ export default function Shop() {
         setError(true)
         setLoading(false)
       })
-  }, [categoryParam])
+  }, [])
 
-  // 🔥 Only search filter now (category handled by API)
+  // ✅ FINAL FILTER (simple + correct)
   let displayed = products.filter(p => {
-    return (
+    const matchSearch =
       p.title.toLowerCase().includes(search.toLowerCase()) ||
       p.category.toLowerCase().includes(search.toLowerCase())
-    )
+
+    const matchCat =
+      !categoryParam ||
+      p.category.toLowerCase() === categoryParam.toLowerCase()
+
+    return matchSearch && matchCat
   })
 
   // Sorting
@@ -117,7 +118,7 @@ export default function Shop() {
         {/* UI States */}
         {error ? (
           <div className="shop-empty">
-            <p>😕 Failed to load products. Please check your connection.</p>
+            <p>😕 Failed to load products.</p>
           </div>
 
         ) : loading ? (
@@ -129,7 +130,7 @@ export default function Shop() {
 
         ) : displayed.length === 0 ? (
           <div className="shop-empty">
-            <p>😕 No products found for "<strong>{search}</strong>"</p>
+            <p>😕 No products found</p>
           </div>
 
         ) : (

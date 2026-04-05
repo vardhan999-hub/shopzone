@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router-dom'
 import ProductCard from '../components/ProductCard.jsx'
 import './Shop.css'
 
-// Skeleton loader
 function SkeletonCard() {
   return (
     <div className="skeleton-card">
@@ -29,50 +28,40 @@ export default function Shop() {
   useEffect(() => {
     setLoading(true)
 
-    if (categoryParam) {
-      // Try category API first
-      fetch(`https://dummyjson.com/products/category/${categoryParam}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.products && data.products.length > 0) {
-            setProducts(data.products)
-            setLoading(false)
-          } else {
-            // Fallback: fetch all and filter
-            fetch('https://dummyjson.com/products?limit=200')
-              .then(res => res.json())
-              .then(allData => {
-                const filtered = allData.products.filter(p =>
-                  p.category.toLowerCase() === categoryParam.toLowerCase()
-                )
-                setProducts(filtered)
-                setLoading(false)
-              })
-          }
-        })
-        .catch(() => {
-          setError(true)
-          setLoading(false)
-        })
-    } else {
-      // No category → fetch all
-      fetch('https://dummyjson.com/products?limit=200')
-        .then(res => res.json())
-        .then(data => {
-          setProducts(data.products || [])
-          setLoading(false)
-        })
-        .catch(() => {
-          setError(true)
-          setLoading(false)
-        })
-    }
-  }, [categoryParam])
+    fetch('https://dummyjson.com/products?limit=200')
+      .then(res => res.json())
+      .then(data => {
+        console.log("CATEGORIES:", [...new Set(data.products.map(p => p.category))])
+        setProducts(data.products || [])
+        setLoading(false)
+      })
+      .catch(() => {
+        setError(true)
+        setLoading(false)
+      })
+  }, [])
 
-  // Search filter
-  let displayed = products.filter(p =>
-    p.title.toLowerCase().includes(search.toLowerCase()) ||
-    p.category.toLowerCase().includes(search.toLowerCase())
+  let displayed = products
+
+  if (categoryParam) {
+    displayed = products.filter(p => {
+      const cat = p.category.toLowerCase()
+
+      if (categoryParam === 'smartphones') {
+        return cat.includes('phone') || cat.includes('smart')
+      }
+
+      if (categoryParam === 'skincare') {
+        return cat.includes('skin') || cat.includes('care')
+      }
+
+      return cat === categoryParam.toLowerCase()
+    })
+  }
+
+  // Search
+  displayed = displayed.filter(p =>
+    p.title.toLowerCase().includes(search.toLowerCase())
   )
 
   // Sorting
@@ -89,67 +78,26 @@ export default function Shop() {
     <div className="page">
       <div className="container">
 
-        {/* Header */}
-        <div className="shop-header fade-up">
-          <div>
-            <p className="section-label">Catalogue</p>
-            <h1 className="section-title">The Shop</h1>
-
-            {categoryParam && (
-              <p className="shop-filter-tag">
-                Filtered: <strong>{categoryParam}</strong>
-              </p>
-            )}
-          </div>
-
-          <p className="shop-count">
-            {loading ? '…' : `${displayed.length} products`}
-          </p>
+        <div className="shop-header">
+          <h1>The Shop</h1>
+          {categoryParam && <p>Filtered: {categoryParam}</p>}
+          <p>{loading ? '…' : `${displayed.length} products`}</p>
         </div>
 
-        {/* Controls */}
-        <div className="shop-controls fade-up">
-          <input
-            type="text"
-            placeholder="Search products…"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            className="search-input"
-          />
+        <input
+          type="text"
+          placeholder="Search..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
 
-          <select
-            className="sort-select"
-            value={sortBy}
-            onChange={e => setSortBy(e.target.value)}
-          >
-            <option value="default">Sort: Default</option>
-            <option value="price-asc">Price: Low → High</option>
-            <option value="price-desc">Price: High → Low</option>
-            <option value="rating">Top Rated</option>
-          </select>
-        </div>
-
-        {/* UI States */}
-        {error ? (
-          <div className="shop-empty">
-            <p>😕 Failed to load products</p>
-          </div>
-
-        ) : loading ? (
+        {loading ? (
           <div className="products-grid">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <SkeletonCard key={i} />
-            ))}
+            {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
           </div>
-
-        ) : displayed.length === 0 ? (
-          <div className="shop-empty">
-            <p>😕 No products found</p>
-          </div>
-
         ) : (
           <div className="products-grid">
-            {displayed.map((p) => (
+            {displayed.map(p => (
               <ProductCard key={p.id} product={p} />
             ))}
           </div>

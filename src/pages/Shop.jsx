@@ -28,7 +28,7 @@ export default function Shop() {
 
   useEffect(() => {
     setLoading(true)
-    fetch('https://dummyjson.com/products?limit=100')
+    fetch('https://dummyjson.com/products?limit=200')
       .then(r => r.json())
       .then(data => { setProducts(data.products); setLoading(false) })
       .catch(() => { setError(true); setLoading(false) })

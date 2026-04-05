@@ -1,125 +1,176 @@
-# ShopZone 🛍️
+🛒 ShopZone
 
-A full-featured multi-page E-Commerce SPA built with **React 18**, **React Router v6**, and **Context API** — Week 6 internship project.
+Week 6 Project — Internship Submission
+Intern: Tadigadapa Harshavardhan
 
-## Live Demo
-> Deploy to Vercel and paste your URL here.
+📌 Overview
 
----
+ShopZone is a multi-page e-commerce web application built using React.
+It allows users to browse products, filter by categories, search items, manage a cart, and complete a checkout process.
 
-## Features
+The main focus of this project was to build a structured and interactive frontend application with proper routing and state management.
 
-### Level 1 — Navigation & Routing
-- React Router v6 with `BrowserRouter`
-- Routes: `/` · `/shop` · `/product/:id` · `/cart` · `/contact` · `/login` · `/checkout` · `/order-success`
-- Dynamic routing — `useParams()` on Product page fetches by ID
-- URL changes on every navigation (no full page reload)
+⚙️ Tech Stack
+React (Vite)
+React Router v6
+Context API
+DummyJSON API
+CSS (custom styling)
+🚀 Features
+Product listing from API
+Category-based filtering
+Search and sorting
+Product detail page
+Add to cart functionality
+Cart management (update quantity, remove items)
+Login (with guest option)
+Protected checkout route
+Order success flow
+🧠 What I Learned
+Managing global state using Context API
+Handling protected routes in React Router
+Working with APIs and debugging data issues
+Structuring a scalable React project
+Deploying using Vercel
+🛠️ Challenges & Fixes
 
-### Level 2 — Global Cart State
-- `CartContext` wraps entire app via `main.jsx`
-- `addToCart` increments quantity if item already exists — no duplicates
-- Navbar cart badge updates instantly on every add
-- `/cart` page with quantity controls, item subtotal, order total
-- Toast notification on every add-to-cart action
+Issue:
+Some categories like smartphones and skincare initially showed no products.
 
-### Level 3 — Auth & Persistence
-- **Persistent Cart** — `localStorage` sync survives page refresh
-- **Persistent Auth** — login state survives page refresh
-- **`/login`** — Login with name OR continue as Guest
-- **Protected Route** — `/checkout` requires login; redirects to `/login` with `state.from` so user returns after authenticating
-- **`/order-success`** — dedicated confirmation page after placing order (no `alert()`)
+Fix:
+After debugging, I identified inconsistencies in the API data and adjusted the fetching and filtering logic to ensure correct results for all categories.
 
----
+🌐 Live Demo
 
-## Tech Stack
+👉 https://shopzone-d2r9eh7rg-harshas-projects-d27330f4.vercel.app/
 
-| Tool | Purpose |
-|------|---------|
-| React 18 | UI framework |
-| Vite | Build tool |
-| React Router DOM v6 | Client-side routing |
-| Context API | Global state (no Redux needed) |
-| localStorage | Persistence across refreshes |
-| DummyJSON API | Product data source |
+📁 Project Structure
+🛒 ShopZone
 
----
+Week 6 Project — Internship Submission
+Intern: Tadigadapa Harshavardhan
 
-## Folder Structure
+📌 Overview
 
-```
+ShopZone is a multi-page e-commerce web application built using React.
+It allows users to browse products, filter by categories, search items, manage a cart, and complete a checkout process.
+
+The main focus of this project was to build a structured and interactive frontend application with proper routing and state management.
+
+⚙️ Tech Stack
+React (Vite)
+React Router v6
+Context API
+DummyJSON API
+CSS (custom styling)
+🚀 Features
+Product listing from API
+Category-based filtering
+Search and sorting
+Product detail page
+Add to cart functionality
+Cart management (update quantity, remove items)
+Login (with guest option)
+Protected checkout route
+Order success flow
+🧠 What I Learned
+Managing global state using Context API
+Handling protected routes in React Router
+Working with APIs and debugging data issues
+Structuring a scalable React project
+Deploying using Vercel
+🛠️ Challenges & Fixes
+
+Issue:
+Some categories like smartphones and skincare initially showed no products.
+
+Fix:
+After debugging, I identified inconsistencies in the API data and adjusted the fetching and filtering logic to ensure correct results for all categories.
+
+🌐 Live Demo
+
+👉 https://shopzone-d2r9eh7rg-harshas-projects-d27330f4.vercel.app/
+
+📁 Project Structure
 shopzone/
+├── index.html
+├── package.json
+├── vite.config.js
+├── vercel.json
+├── Prompts.md
+├── README.md
 ├── public/
-├── src/
-│   ├── components/
-│   │   ├── Navbar.jsx          # Sticky nav with live cart badge
-│   │   ├── ProductCard.jsx     # Reusable product grid card
-│   │   └── ProtectedRoute.jsx  # Auth guard — redirects to /login
-│   ├── context/
-│   │   ├── CartContext.jsx     # Cart state + localStorage + toast
-│   │   └── AuthContext.jsx     # Auth state + localStorage
-│   ├── pages/
-│   │   ├── Home.jsx            # Hero banner + categories
-│   │   ├── Shop.jsx            # Product grid + search + sort
-│   │   ├── Product.jsx         # Detail page via useParams()
-│   │   ├── Cart.jsx            # Cart items + order summary
-│   │   ├── Contact.jsx         # Static contact form
-│   │   ├── Login.jsx           # Guest/named login
-│   │   ├── Checkout.jsx        # Protected — shipping + payment
-│   │   └── OrderSuccess.jsx    # Post-order confirmation
-│   ├── App.jsx                 # All routes defined here
-│   ├── main.jsx                # AuthProvider > CartProvider > App
-│   └── index.css               # Design system + CSS variables
-├── vercel.json                 # SPA routing fix for Vercel
-├── Prompts.md                  # AI prompts log (submission req.)
-└── package.json
-```
-
----
-
-## Run Locally
-
-```bash
-# 1. Install dependencies
+└── src/
+    ├── App.jsx
+    ├── main.jsx
+    ├── index.css
+    │
+    ├── components/
+    │   ├── Navbar.jsx
+    │   ├── Navbar.css
+    │   ├── ProductCard.jsx
+    │   ├── ProductCard.css
+    │   └── ProtectedRoute.jsx
+    │
+    ├── context/
+    │   ├── AuthContext.jsx
+    │   └── CartContext.jsx
+    │
+    ├── pages/
+    │   ├── Home.jsx / Home.css
+    │   ├── Shop.jsx / Shop.css
+    │   ├── Product.jsx / Product.css
+    │   ├── Cart.jsx / Cart.css
+    │   ├── Contact.jsx / Contact.css
+    │   ├── Login.jsx / Login.css
+    │   ├── Checkout.jsx / Checkout.css
+    │   └── OrderSuccess.jsx / OrderSuccess.css
+    │
+    └── utils/
+        └── formatPrice.js
+shopzone/
+├── index.html
+├── package.json
+├── vite.config.js
+├── vercel.json
+├── Prompts.md
+├── README.md
+├── public/
+└── src/
+    ├── App.jsx
+    ├── main.jsx
+    ├── index.css
+    │
+    ├── components/
+    │   ├── Navbar.jsx
+    │   ├── Navbar.css
+    │   ├── ProductCard.jsx
+    │   ├── ProductCard.css
+    │   └── ProtectedRoute.jsx
+    │
+    ├── context/
+    │   ├── AuthContext.jsx
+    │   └── CartContext.jsx
+    │
+    ├── pages/
+    │   ├── Home.jsx / Home.css
+    │   ├── Shop.jsx / Shop.css
+    │   ├── Product.jsx / Product.css
+    │   ├── Cart.jsx / Cart.css
+    │   ├── Contact.jsx / Contact.css
+    │   ├── Login.jsx / Login.css
+    │   ├── Checkout.jsx / Checkout.css
+    │   └── OrderSuccess.jsx / OrderSuccess.css
+    │
+    └── utils/
+        └── formatPrice.js
+▶️ Run Locally
 npm install
-
-# 2. Start dev server
 npm run dev
+🎯 Conclusion
 
-# 3. Open http://localhost:5173
-```
+This project helped me understand how to build a complete React application with routing, state management, and real-world features like authentication and cart handling. It also improved my debugging skills while working with external APIs.
 
-## Build for Production
+📌 Submission
 
-```bash
-npm run build
-npm run preview
-```
-
-## Deploy to Vercel
-
-1. Push to GitHub
-2. Import repo on [vercel.com](https://vercel.com)
-3. Framework preset: **Vite**
-4. The `vercel.json` already handles SPA routing — no extra config needed
-
-> **FAQ #19 Tip:** `vercel.json` rewrites all routes to `index.html` so refreshing `/product/5` won't 404.
-
----
-
-## API
-
-All product data from [DummyJSON](https://dummyjson.com/products):
-
-```
-GET https://dummyjson.com/products?limit=100   → all products
-GET https://dummyjson.com/products/:id         → single product
-```
-
----
-
-## Design
-
-- **Font:** Playfair Display (headings) + DM Sans (body)
-- **Theme:** Dark editorial — charcoal `#0f0f0f`, amber accent `#e8a045`
-- **Motion:** CSS fade-up animations, hover transitions, cart badge pop
-- **Responsive:** Mobile-first layout, cart controls stack on small screens
+Submitted as part of Week 6 internship task.

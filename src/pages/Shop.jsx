@@ -29,7 +29,11 @@ export default function Shop() {
   useEffect(() => {
     setLoading(true)
 
-    fetch('https://dummyjson.com/products?limit=200') // fetch all
+    const url = categoryParam
+      ? `https://dummyjson.com/products/category/${categoryParam}`
+      : `https://dummyjson.com/products`
+
+    fetch(url)
       .then(res => res.json())
       .then(data => {
         setProducts(data.products || [])
@@ -39,20 +43,13 @@ export default function Shop() {
         setError(true)
         setLoading(false)
       })
-  }, [])
+  }, [categoryParam])
 
-  // ✅ FINAL FILTER (simple + correct)
-  let displayed = products.filter(p => {
-    const matchSearch =
-      p.title.toLowerCase().includes(search.toLowerCase()) ||
-      p.category.toLowerCase().includes(search.toLowerCase())
-
-    const matchCat =
-      !categoryParam ||
-      p.category.toLowerCase() === categoryParam.toLowerCase()
-
-    return matchSearch && matchCat
-  })
+  // Only search filter
+  let displayed = products.filter(p =>
+    p.title.toLowerCase().includes(search.toLowerCase()) ||
+    p.category.toLowerCase().includes(search.toLowerCase())
+  )
 
   // Sorting
   if (sortBy === 'price-asc')
@@ -88,20 +85,13 @@ export default function Shop() {
 
         {/* Controls */}
         <div className="shop-controls fade-up">
-          <div className="search-wrap">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="8"/>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-
-            <input
-              type="text"
-              placeholder="Search products…"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              className="search-input"
-            />
-          </div>
+          <input
+            type="text"
+            placeholder="Search products…"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="search-input"
+          />
 
           <select
             className="sort-select"
@@ -118,7 +108,7 @@ export default function Shop() {
         {/* UI States */}
         {error ? (
           <div className="shop-empty">
-            <p>😕 Failed to load products.</p>
+            <p>😕 Failed to load products</p>
           </div>
 
         ) : loading ? (
@@ -135,12 +125,8 @@ export default function Shop() {
 
         ) : (
           <div className="products-grid">
-            {displayed.map((p, i) => (
-              <ProductCard
-                key={p.id}
-                product={p}
-                style={{ animationDelay: `${Math.min(i, 12) * 0.04}s` }}
-              />
+            {displayed.map((p) => (
+              <ProductCard key={p.id} product={p} />
             ))}
           </div>
         )}

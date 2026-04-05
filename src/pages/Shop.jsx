@@ -26,12 +26,15 @@ export default function Shop() {
   const [searchParams] = useSearchParams()
   const categoryParam = searchParams.get('category')
 
+  // ✅ Fetch logic (IMPORTANT FIX)
   useEffect(() => {
     setLoading(true)
 
-    const url = categoryParam
-      ? `https://dummyjson.com/products/category/${categoryParam}`
-      : `https://dummyjson.com/products`
+    let url = 'https://dummyjson.com/products?limit=100'
+
+    if (categoryParam) {
+      url = `https://dummyjson.com/products/category/${categoryParam}`
+    }
 
     fetch(url)
       .then(res => res.json())
@@ -45,7 +48,7 @@ export default function Shop() {
       })
   }, [categoryParam])
 
-  // Only search filter
+  // ✅ Only search filter (category handled by API)
   let displayed = products.filter(p =>
     p.title.toLowerCase().includes(search.toLowerCase()) ||
     p.category.toLowerCase().includes(search.toLowerCase())
